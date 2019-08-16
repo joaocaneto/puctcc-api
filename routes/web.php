@@ -15,8 +15,10 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->post('produtos', 'ProdutosController@store');
 $router->get('produtos', 'ProdutosController@index');
+$router->get('produtos/{idProduto}', 'ProdutosController@show');
+$router->post('produtos', 'ProdutosController@store');
+
 $router->get('series/{id}', 'SeriesController@show');
 $router->put('series/{id}', 'SeriesController@update');
 $router->delete('series/{id}', 'SeriesController@destroy');
