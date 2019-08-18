@@ -32,7 +32,8 @@ class Fornecedor extends Eloquent
         'cnpj',
 		'nomeFornecedor',
         'descFornecedor',
-        'emailFornecedor',
+		'emailFornecedor',
+		'password',
 		'situacao'
 	];
 

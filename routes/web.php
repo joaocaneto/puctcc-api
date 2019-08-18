@@ -15,10 +15,10 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('produtos', 'ProdutosController@index');
-$router->get('produtos/{idProduto}', 'ProdutosController@show');
-$router->post('produtos', 'ProdutosController@store');
+$router->post('login', 'TokenController@login');
 
-$router->get('series/{id}', 'SeriesController@show');
-$router->put('series/{id}', 'SeriesController@update');
-$router->delete('series/{id}', 'SeriesController@destroy');
+$router->get('produtos', ['middleware' => 'auth', 'uses' => 'ProdutosController@index']); 
+
+$router->get('produtos/{idProduto}', ['middleware' => 'auth', 'uses' => 'ProdutosController@show']);   
+
+$router->post('produtos', 'ProdutosController@store');

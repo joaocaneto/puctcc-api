@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produto;
-use Illuminate\Http\Request as IlluminateRequest;
+use Illuminate\Http\Request;
 
 class ProdutosController extends Controller
 {
@@ -22,16 +22,15 @@ class ProdutosController extends Controller
         return response()->json(Produto::all(), 200);
     }
 
-    public function show(IlluminateRequest $request)
+    public function show(Request $request)
     {
         $produto = Produto::query()->where('idProduto', '=', $request->idProduto)->get();
         
         if ($produto->isEmpty()) {
-            return response()->json('', 204);
+            return response()->json(null, 404);
         } else {
             return response()->json($produto, 200);
         }
-
         
     }
 }
