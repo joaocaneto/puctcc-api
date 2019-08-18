@@ -25,12 +25,27 @@ class ProdutosController extends Controller
     public function show(Request $request)
     {
         $produto = Produto::query()->where('idProduto', '=', $request->idProduto)->get();
-        
+
         if ($produto->isEmpty()) {
             return response()->json(null, 404);
         } else {
             return response()->json($produto, 200);
         }
-        
+    }
+
+    public function store(Request $request)
+    {
+        return response()->json(
+            Produto::create(
+                [
+                    'categoria' => $request->categoria,
+                    'nomeProduto' => $request->nomeProduto,
+                    'descProduto' => $request->descProduto,
+                    'preco' => $request->preco,
+                    'situacao' => 'A'
+                ]
+            ),
+            201
+        );
     }
 }

@@ -21,4 +21,8 @@ $router->get('produtos', ['middleware' => 'auth', 'uses' => 'ProdutosController@
 
 $router->get('produtos/{idProduto}', ['middleware' => 'auth', 'uses' => 'ProdutosController@show']);   
 
-$router->post('produtos', 'ProdutosController@store');
+$router->post('produtos', ['middleware' => 'auth', 'uses' => 'ProdutosController@store']);
+
+$router->put('produtos/{idProduto}', ['middleware' => 'auth', 'uses' => 'ProdutosController@update']);
+
+$router->put('produtos/{idProduto}/atualizarEstoque/{valor}', ['middleware' => 'auth', 'uses' => 'ProdutosController@update']);
