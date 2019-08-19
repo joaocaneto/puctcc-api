@@ -41,11 +41,19 @@ class ProdutosController extends Controller
                     'categoria' => $request->categoria,
                     'nomeProduto' => $request->nomeProduto,
                     'descProduto' => $request->descProduto,
-                    'preco' => $request->preco,
+                    'preco' => $request->valor,
                     'situacao' => 'A'
                 ]
             ),
             201
         );
+    }
+
+    public function atualizarImagem(Request $request)
+    {
+        $fileName = 'download.png';
+        $path = $request->file('photo')->move('../../puctcc/', $fileName);
+        $photoURL = url($fileName);
+        return response()->json(['url' => $photoURL], 200);
     }
 }
