@@ -12,8 +12,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 /**
  * Class ProdutoFornecedor
  * 
- * @property int $produto_idProduto
- * @property int $fornecedor_idFornecedor
+ * @property int $p_idProduto
+ * @property int $f_idFornecedor
  * 
  * @property \App\Models\Fornecedor $fornecedor
  * @property \App\Models\Produto $produto
@@ -23,12 +23,20 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class ProdutoFornecedor extends Eloquent
 {
 	protected $table = 'produto_fornecedor';
+	protected $primaryKey = 'idPF';
 	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
-		'produto_idProduto' => 'int',
-		'fornecedor_idFornecedor' => 'int'
+		'p_idProduto' => 'int',
+		'f_idFornecedor' => 'int',
+		'quantidade' => 'int'
+	];
+
+	protected $fillable = [
+		'p_idProduto',
+		'f_idFornecedor',
+		'quantidade'
 	];
 
 	public function fornecedor()

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fornecedor;
 use App\Models\Produto;
+use App\Models\ProdutoFornecedor;
+use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 
 class ProdutosController extends Controller
@@ -35,18 +38,27 @@ class ProdutosController extends Controller
 
     public function store(Request $request)
     {
-        return response()->json(
-            Produto::create(
-                [
-                    'categoria' => $request->categoria,
-                    'nomeProduto' => $request->nomeProduto,
-                    'descProduto' => $request->descProduto,
-                    'preco' => $request->valor,
-                    'situacao' => 'A'
-                ]
-            ),
-            201
+        $token = $request->header('AuthorizationToken');
+        $dadosAutenticacao = JWT::decode($token, env('JWT_KEY'), ['HS256']);
+        $fornecedor = Fornecedor::query()->where('emailFornecedor', '=', $dadosAutenticacao->emailFornecedor)->first();
+
+        $produto = Produto::create(
+            [
+                'categoria' => $request->categoria,
+                'nomeProduto' => $request->nomeProduto,
+                'descProduto' => $request->descProduto,
+                'preco' => $request->preco,
+                'situacao' => 'A'
+            ]
         );
+
+        $produtoFornecedor = ProdutoFornecedor::create([
+            'p_idProduto' => $produto->idProduto,
+            'f_idFornecedor' => $fornecedor->idFornecedor,
+            'quantidade' => 0
+        ]);
+
+        return response()->json($produto, 201);
     }
 
     public function atualizarImagem(Request $request)
@@ -60,7 +72,7 @@ class ProdutosController extends Controller
         if (is_null($produto)) {
             return response()->json('Recurso não encontrado.', 404, $header, JSON_UNESCAPED_UNICODE);
         }
-        
+
         return redirect('http://puctcc.localhost/produtos/' . $request->idProduto . '/atualizarImagem');
     }
 
@@ -75,9 +87,9 @@ class ProdutosController extends Controller
         if (is_null($produto)) {
             return response()->json('Recurso não encontrado.', 404, $header, JSON_UNESCAPED_UNICODE);
         }
-        
+
         $produto->fill($request->all());
-        
+
         $produto->save();
 
         return response()->json($produto, 204);
@@ -90,15 +102,23 @@ class ProdutosController extends Controller
             'charset' => 'utf-8'
         );
 
-        $produto = Produto::find($request->idProduto);
-        if (is_null($produto)) {
+        $produtoFornecedor = ProdutoFornecedor::query()->where([
+            ['p_idProduto', '=', $request->idProduto],
+            ['f_idFornecedor', '=', $request->idFornecedor]
+        ])->first();
+
+        if (is_null($produtoFornecedor)) {
             return response()->json('Recurso não encontrado.', 404, $header, JSON_UNESCAPED_UNICODE);
         }
-        
-        $produto->fill($request->all());
-        
-        $produto->save();
 
-        return response()->json($produto, 204);
+        $produtoFornecedor->fill([
+            'p_idProduto' => $request->idProduto,
+            'f_idFornecedor' => $request->idFornecedor,
+            'quantidade' => $request->quantidade
+        ]);
+
+        $produtoFornecedor->save();
+
+        return response()->json($produtoFornecedor, 204);
     }
 }
