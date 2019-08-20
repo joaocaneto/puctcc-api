@@ -73,7 +73,7 @@ class ProdutosController extends Controller
             return response()->json('Recurso não encontrado.', 404, $header, JSON_UNESCAPED_UNICODE);
         }
 
-        return redirect('http://puctcc.localhost/produtos/' . $request->idProduto . '/atualizarImagem');
+        return redirect('http://puctcc.herokuapp.com/produtos/' . $request->idProduto . '/atualizarImagem');
     }
 
     public function update(Request $request)
