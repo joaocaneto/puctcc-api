@@ -51,9 +51,54 @@ class ProdutosController extends Controller
 
     public function atualizarImagem(Request $request)
     {
-        $fileName = 'download.png';
-        $path = $request->file('photo')->move('../../puctcc/', $fileName);
-        $photoURL = url($fileName);
-        return response()->json(['url' => $photoURL], 200);
+        $header = array(
+            'Content-Type' => 'application/json; charset=UTF-8',
+            'charset' => 'utf-8'
+        );
+
+        $produto = Produto::find($request->idProduto);
+        if (is_null($produto)) {
+            return response()->json('Recurso não encontrado.', 404, $header, JSON_UNESCAPED_UNICODE);
+        }
+        
+        return redirect('http://puctcc.localhost/produtos/' . $request->idProduto . '/atualizarImagem');
+    }
+
+    public function update(Request $request)
+    {
+        $header = array(
+            'Content-Type' => 'application/json; charset=UTF-8',
+            'charset' => 'utf-8'
+        );
+
+        $produto = Produto::find($request->idProduto);
+        if (is_null($produto)) {
+            return response()->json('Recurso não encontrado.', 404, $header, JSON_UNESCAPED_UNICODE);
+        }
+        
+        $produto->fill($request->all());
+        
+        $produto->save();
+
+        return response()->json($produto, 204);
+    }
+
+    public function atualizarEstoque(Request $request)
+    {
+        $header = array(
+            'Content-Type' => 'application/json; charset=UTF-8',
+            'charset' => 'utf-8'
+        );
+
+        $produto = Produto::find($request->idProduto);
+        if (is_null($produto)) {
+            return response()->json('Recurso não encontrado.', 404, $header, JSON_UNESCAPED_UNICODE);
+        }
+        
+        $produto->fill($request->all());
+        
+        $produto->save();
+
+        return response()->json($produto, 204);
     }
 }

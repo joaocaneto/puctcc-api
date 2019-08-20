@@ -35,8 +35,13 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        $header = array(
+            'Content-Type' => 'application/json; charset=UTF-8',
+            'charset' => 'utf-8'
+        );
+
         if ($this->auth->guard($guard)->guest()) {
-            return response('Usuário não autorizado.', 401);
+            return response()->json('Usuário não autorizado.', 401, $header, JSON_UNESCAPED_UNICODE);
         }
 
         return $next($request);

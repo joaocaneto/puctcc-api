@@ -27,4 +27,4 @@ $router->post('produtos/{idProduto}/atualizarImagem', ['middleware' => 'auth', '
 
 $router->put('produtos/{idProduto}', ['middleware' => 'auth', 'uses' => 'ProdutosController@update']);
 
-$router->put('produtos/{idProduto}/atualizarEstoque/{valor}', ['middleware' => 'auth', 'uses' => 'ProdutosController@update']);
+$router->put('produtos/{idProduto}/atualizarEstoque/{valor}', ['middleware' => 'auth', 'uses' => 'ProdutosController@atualizarEstoque']);
