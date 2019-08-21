@@ -39,7 +39,7 @@ class AuthServiceProvider extends ServiceProvider
                 $dadosAutenticacao = JWT::decode($token, env('JWT_KEY'), ['HS256']);
                 return Fornecedor::query()->where([
                     ['emailFornecedor', '=', $dadosAutenticacao->emailFornecedor],
-                    ['situacao', '=', 'L']
+                    ['situacao', '=', 'U']
                 ])->first();
             }
         });

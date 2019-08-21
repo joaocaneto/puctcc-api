@@ -23,7 +23,7 @@ class TokenController extends Controller
 
         $fornecedor = Fornecedor::query()->where([
             ['emailFornecedor', '=', $request->emailFornecedor],
-            ['situacao', '=', 'L']
+            ['situacao', '=', 'U']
         ])->first();
 
         if (is_null($fornecedor) || !Hash::check($request->password, $fornecedor->password)) {
@@ -35,7 +35,7 @@ class TokenController extends Controller
             );
         }
 
-        if ($fornecedor->situacao != 'L') {
+        if ($fornecedor->situacao != 'U') {
             return response()->json(
                 'Seu usuário está bloqueado. Entre em contato com o Administrador.',
                 401,
