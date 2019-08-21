@@ -25,7 +25,7 @@ class TokenController extends Controller
             ['emailFornecedor', '=', $request->emailFornecedor]            
         ])->first();
 		
-		if ($fornecedor->situacao != 'L') {
+		if ($fornecedor->situacao != 'U') {
             return response()->json(
                 'Seu usuário está bloqueado. Entre em contato com o Administrador.',
                 401,
