@@ -16,6 +16,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $cnpj
  * @property string $nomeFornecedor
  * @property string $descFornecedor
+ * @property string $emailFornecedor
+ * @property string $password
  * @property string $situacao
  *
  * @property \Illuminate\Database\Eloquent\Collection $produtos
