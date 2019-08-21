@@ -22,9 +22,17 @@ class TokenController extends Controller
         ]);
 
         $fornecedor = Fornecedor::query()->where([
-            ['emailFornecedor', '=', $request->emailFornecedor],
-            ['situacao', '=', 'U']
+            ['emailFornecedor', '=', $request->emailFornecedor]            
         ])->first();
+		
+		if ($fornecedor->situacao != 'L') {
+            return response()->json(
+                'Seu usuário está bloqueado. Entre em contato com o Administrador.',
+                401,
+                $header,
+                JSON_UNESCAPED_UNICODE
+            );
+        }
 
         if (is_null($fornecedor) || !Hash::check($request->password, $fornecedor->password)) {
             return response()->json(
@@ -33,16 +41,7 @@ class TokenController extends Controller
                 $header,
                 JSON_UNESCAPED_UNICODE
             );
-        }
-
-        if ($fornecedor->situacao != 'U') {
-            return response()->json(
-                'Seu usuário está bloqueado. Entre em contato com o Administrador.',
-                401,
-                $header,
-                JSON_UNESCAPED_UNICODE
-            );
-        }
+        }        
 
         $token = JWT::encode(['emailFornecedor' => $request->emailFornecedor], env('JWT_KEY'));
 
