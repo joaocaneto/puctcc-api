@@ -38,6 +38,8 @@ class ProdutosController extends Controller
 
     public function store(Request $request)
     {
+        return var_dump($request);
+
         $token = $request->header('AuthorizationToken');
         $dadosAutenticacao = JWT::decode($token, env('JWT_KEY'), ['HS256']);
         $fornecedor = Fornecedor::query()->where('emailFornecedor', '=', $dadosAutenticacao->emailFornecedor)->first();
@@ -46,7 +48,7 @@ class ProdutosController extends Controller
             [
                 'categoria' => $request->categoria,
                 'nomeProduto' => $request->nomeProduto,
-                'descProduto' => $request->descProduto,
+                'descProduto' => addslashes($request->descProduto),
                 'preco' => $request->preco,
                 'situacao' => 'A'
             ]
