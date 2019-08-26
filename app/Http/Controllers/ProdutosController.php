@@ -46,7 +46,7 @@ class ProdutosController extends Controller
             [
                 'categoria' => $request->categoria,
                 'nomeProduto' => $request->nomeProduto,
-                'descProduto' => $request->descProduto,
+                'descProduto' => addslashes($request->descProduto),
                 'preco' => $request->preco,
                 'situacao' => 'A'
             ]
