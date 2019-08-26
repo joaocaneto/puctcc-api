@@ -23,7 +23,7 @@ $router->get('produtos/{idProduto}', ['middleware' => 'auth', 'uses' => 'Produto
 
 $router->post('produtos', ['middleware' => 'auth', 'uses' => 'ProdutosController@store']);
 
-$router->post('produtos/{idProduto}/atualizarImagem', ['middleware' => 'auth', 'uses' => 'ProdutosController@atualizarImagem']);
+$router->post('produtos/atualizarImagem/{idProduto}', ['middleware' => 'auth', 'uses' => 'ProdutosController@atualizarImagem']);
 
 $router->put('produtos', ['middleware' => 'auth', 'uses' => 'ProdutosController@update']);
 
