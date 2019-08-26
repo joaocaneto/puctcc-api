@@ -42,20 +42,12 @@ class ProdutosController extends Controller
         $dadosAutenticacao = JWT::decode($token, env('JWT_KEY'), ['HS256']);
         $fornecedor = Fornecedor::query()->where('emailFornecedor', '=', $dadosAutenticacao->emailFornecedor)->first();
 
-        $unwanted_array = array(
-            'Š' => 'S', 'š' => 's', 'Ž' => 'Z', 'ž' => 'z', 'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A', 'Æ' => 'A', 'Ç' => 'C', 'È' => 'E', 'É' => 'E',
-            'Ê' => 'E', 'Ë' => 'E', 'Ì' => 'I', 'Í' => 'I', 'Î' => 'I', 'Ï' => 'I', 'Ñ' => 'N', 'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O', 'Ø' => 'O', 'Ù' => 'U',
-            'Ú' => 'U', 'Û' => 'U', 'Ü' => 'U', 'Ý' => 'Y', 'Þ' => 'B', 'ß' => 'Ss', 'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a', 'æ' => 'a', 'ç' => 'c',
-            'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e', 'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i', 'ð' => 'o', 'ñ' => 'n', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o',
-            'ö' => 'o', 'ø' => 'o', 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ý' => 'y', 'þ' => 'b', 'ÿ' => 'y'
-        );
-        
         $produto = Produto::create(
             [
-                'categoria' => strtr($request->categoria, $unwanted_array),
-                'nomeProduto' => strtr($request->nomeProduto, $unwanted_array),
-                'descProduto' => strtr($request->descProduto, $unwanted_array),
-                'preco' => strtr($request->preco, $unwanted_array),
+                'categoria' => $request->categoria,
+                'nomeProduto' => $request->nomeProduto,
+                'descProduto' => $request->descProduto,
+                'preco' => $request->preco,
                 'situacao' => 'A'
             ]
         );
