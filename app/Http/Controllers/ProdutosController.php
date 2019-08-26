@@ -38,8 +38,6 @@ class ProdutosController extends Controller
 
     public function store(Request $request)
     {
-        return var_dump($request);
-
         $token = $request->header('AuthorizationToken');
         $dadosAutenticacao = JWT::decode($token, env('JWT_KEY'), ['HS256']);
         $fornecedor = Fornecedor::query()->where('emailFornecedor', '=', $dadosAutenticacao->emailFornecedor)->first();
